@@ -44,10 +44,10 @@ export default function Posts() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {!loading && !error && posts.map(post => (
             <PostCard
-              key={post.userID}
+              key={post.userId}
               title={post.title}
               content={post.content}
-              userID={post.userID}
+              userId={post.userId}
             />
           ))}
         </div>

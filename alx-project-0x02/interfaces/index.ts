@@ -20,6 +20,7 @@ export interface ButtonProps {
   onClick: () => void;
   variant?: 'primary' | 'secondary' | 'danger';
   size?: 'small' | 'medium' | 'large';
+  shape?: 'rounded' | 'square';
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
 }

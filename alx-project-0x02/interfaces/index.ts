@@ -20,7 +20,7 @@ export interface ButtonProps {
   onClick: () => void;
   variant?: 'primary' | 'secondary' | 'danger';
   size?: 'small' | 'medium' | 'large';
-  borderRadius?: 
+  shape?: 
     | 'rounded-sm'
     | 'rounded-md'
     | 'rounded-lg'

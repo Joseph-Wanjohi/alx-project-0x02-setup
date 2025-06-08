@@ -20,7 +20,12 @@ export interface ButtonProps {
   onClick: () => void;
   variant?: 'primary' | 'secondary' | 'danger';
   size?: 'small' | 'medium' | 'large';
-  shape?: 'rounded' | 'square';
+  borderRadius?: 
+    | 'rounded-sm'
+    | 'rounded-md'
+    | 'rounded-lg'
+    | 'rounded-full'
+    ;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
 }

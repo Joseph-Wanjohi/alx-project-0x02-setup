@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Header from '../components/layout/Header'
+import Header from '@/components/layout/Header'
 import Card from '@/components/common/Card'
 import Button from '@/components/common/Button'
 import PostModal from '@/components/common/PostModal'

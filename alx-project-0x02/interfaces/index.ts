@@ -14,3 +14,12 @@ export interface Post {
   title: string;
   content: string;
 }
+
+export interface ButtonProps {
+  children: React.ReactNode;
+  onClick: () => void;
+  variant?: 'primary' | 'secondary' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+}

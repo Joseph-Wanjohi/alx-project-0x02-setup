@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Header from '../components/layout/Header'
 import Card from '@/components/common/Card'
+import Button from '@/components/common/Button'
 import PostModal from '@/components/common/PostModal'
 import { type Post } from '@/interfaces'
 
@@ -37,17 +38,18 @@ export default function Home() {
             <h1 className="text-4xl font-bold text-green-600">
               🏠 Welcome to the Home Page!
             </h1>
-            <button
+            <Button
+              variant="primary"
+              size="medium"
               onClick={() => setIsModalOpen(true)}
-              className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors"
             >
               ➕ Add New Post
-            </button>
+            </Button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {posts.map((post) => (
-              <Card 
+              <Card
                 key={post.id}
                 title={post.title}
                 content={post.content}
@@ -57,7 +59,7 @@ export default function Home() {
         </div>
       </div>
 
-      <PostModal 
+      <PostModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleAddPost}

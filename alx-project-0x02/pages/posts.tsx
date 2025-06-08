@@ -1,31 +1,13 @@
-import { useEffect, useState } from 'react'
 import Header from '@/components/layout/Header'
 import Button from '@/components/common/Button'
 import PostCard from '@/components/common/PostCard'
 import { PostProps } from '@/interfaces'
 
-export default function Posts() {
-  const [posts, setPosts] = useState<PostProps[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string|null>(null)
+interface PostsPageProps {
+  posts: PostProps[]
+}
 
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-      .then(res => {
-        if (!res.ok) throw new Error('Network response was not ok')
-        return res.json()
-      })
-      .then((data: PostProps[]) => {
-        setPosts(data)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error(err)
-        setError('Failed to load posts.')
-        setLoading(false)
-      })
-  }, [])
-
+export default function Posts({ posts }: PostsPageProps) {
   return (
     <div>
       <Header />
@@ -38,13 +20,10 @@ export default function Posts() {
           </Button>
         </div>
 
-        {loading && <p>Loading posts…</p>}
-        {error && <p className="text-red-500">{error}</p>}
-
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {!loading && !error && posts.map(post => (
+          {posts.map(post => (
             <PostCard
-              key={post.userId}
+              key={post.userId + '-' + post.title}
               title={post.title}
               content={post.content}
               userId={post.userId}
@@ -54,4 +33,22 @@ export default function Posts() {
       </div>
     </div>
   )
+}
+
+export async function getStaticProps() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const data = await res.json()
+
+  type ApiPost = { userId: number; id: number; title: string; body: string }
+  const posts: PostProps[] = (data as ApiPost[]).map((p) => ({
+    userId: p.userId,
+    title: p.title,
+    content: p.body,
+  }))
+
+  return {
+    props: {
+      posts,
+    },
+  }
 }

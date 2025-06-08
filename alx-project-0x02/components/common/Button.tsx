@@ -5,6 +5,7 @@ export default function Button({
   onClick,
   variant = "primary",
   size = "medium",
+  shape = "rounded-md",
   disabled = false,
   type = "button",
 }: ButtonProps) {
@@ -23,9 +24,16 @@ export default function Button({
     large: "px-6 py-3 text-lg",
   };
 
+    const shapeStyles = {
+        "rounded-sm": "rounded-sm",
+        "rounded-md": "rounded-md",
+        "rounded-lg": "rounded-lg",
+        "rounded-full": "rounded-full",
+    };
+
   return (
     <button
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${shapeStyles[shape]}`}
       onClick={onClick}
       disabled={disabled}
       type={type}

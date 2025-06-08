@@ -29,3 +29,9 @@ export interface ButtonProps {
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
 }
+
+export interface PostProps {
+  title: string;
+  content: string;
+  userID: number;
+}

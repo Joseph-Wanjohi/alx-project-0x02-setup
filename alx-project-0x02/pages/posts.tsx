@@ -1,107 +1,55 @@
+import { useEffect, useState } from 'react'
 import Header from '@/components/layout/Header'
 import Button from '@/components/common/Button'
+import PostCard from '@/components/common/PostCard'
+import { PostProps } from '@/interfaces'
 
-export default function ButtonsPage() {
-  const handleClick = (message: string) => {
-    alert(`You clicked: ${message}`)
-  }
+export default function Posts() {
+  const [posts, setPosts] = useState<PostProps[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string|null>(null)
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok')
+        return res.json()
+      })
+      .then((data: PostProps[]) => {
+        setPosts(data)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error(err)
+        setError('Failed to load posts.')
+        setLoading(false)
+      })
+  }, [])
 
   return (
     <div>
       <Header />
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
-            🎮 Button Component Showcase
-          </h1>
-          
-          {/* Different Variants Section */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-700 mb-4">Different Styles (Variants)</h2>
-            <div className="flex flex-wrap gap-4">
-              <Button 
-                variant="primary" 
-                onClick={() => handleClick('Primary Button')}
-              >
-                Primary Button
-              </Button>
-              <Button 
-                variant="secondary" 
-                onClick={() => handleClick('Secondary Button')}
-              >
-                Secondary Button
-              </Button>
-              <Button 
-                variant="danger" 
-                onClick={() => handleClick('Danger Button')}
-              >
-                Danger Button
-              </Button>
-            </div>
-          </div>
 
-          {/* Different Sizes Section */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-700 mb-4">Different Sizes</h2>
-            <div className="flex flex-wrap items-center gap-4">
-              <Button 
-                size="small" 
-                onClick={() => handleClick('Small Button')}
-              >
-                Small Button
-              </Button>
-              <Button 
-                size="medium" 
-                onClick={() => handleClick('Medium Button')}
-              >
-                Medium Button
-              </Button>
-              <Button 
-                size="large" 
-                onClick={() => handleClick('Large Button')}
-              >
-                Large Button
-              </Button>
-            </div>
-          </div>
+      <div className="min-h-screen bg-blue-50 p-4">
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-4xl font-bold text-blue-600">📜 Posts</h1>
+          <Button variant="primary" size="medium" onClick={() => alert('Add Post')}>
+            ➕ Add New Post
+          </Button>
+        </div>
 
-          {/* Disabled State Section */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-700 mb-4">Disabled State</h2>
-            <div className="flex flex-wrap gap-4">
-              <Button disabled onClick={() => {}}>Disabled Primary</Button>
-              <Button variant="secondary" disabled onClick={() => {}}>Disabled Secondary</Button>
-              <Button variant="danger" disabled onClick={() => {}}>Disabled Danger</Button>
-            </div>
-          </div>
+        {loading && <p>Loading posts…</p>}
+        {error && <p className="text-red-500">{error}</p>}
 
-          {/* Mixed Examples */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-700 mb-4">Mixed Examples</h2>
-            <div className="flex flex-wrap gap-4">
-              <Button 
-                variant="primary" 
-                size="small"
-                onClick={() => handleClick('Small Primary')}
-              >
-                🚀 Launch
-              </Button>
-              <Button 
-                variant="danger" 
-                size="large"
-                onClick={() => handleClick('Large Danger')}
-              >
-                ⚠️ Delete Account
-              </Button>
-              <Button 
-                variant="secondary" 
-                size="medium"
-                onClick={() => handleClick('Medium Secondary')}
-              >
-                📄 View Details
-              </Button>
-            </div>
-          </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {!loading && !error && posts.map(post => (
+            <PostCard
+              key={post.userID}
+              title={post.title}
+              content={post.content}
+              userID={post.userID}
+            />
+          ))}
         </div>
       </div>
     </div>
